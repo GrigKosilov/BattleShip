@@ -1,0 +1,141 @@
+import java.util.Random;
+
+public class seaWars {
+    private static  int SIZE = 2;
+    private static int[][] matrix = new int[SIZE][SIZE];
+    public static void main(String args[]) {
+        System.out.println(showMaps());
+    }
+
+    static String showMaps() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                matrix[i][j] = 1;
+            }
+        }
+        String result = "";
+        //comments_20space
+        result += "  user map:";
+        for (int i = 0; i < SIZE * 2 + 2; i++) {
+            result += " ";
+        }
+        result += "  computer map:\n";
+
+        //номера поля
+        result += ("   ");
+        for (int i = 1; i < SIZE+1; i++) {
+            result += (i+" ");
+        }
+        result+="             ";
+        for (int i = 1; i < SIZE+1; i++) {
+            result += (i+" ");
+        }
+        result+="\n";
+
+
+        //первая строчка
+        result+="  ";
+        for(int i=0; i<SIZE; i++){
+            result+=" _";
+        }
+        result+="             ";
+        for(int i=0; i<SIZE-1; i++){
+            result+=" _";
+        }
+        result+=" _\n";
+
+        //strings
+        for(int i=0; i<SIZE; i++){
+            result += ( (i+1) + " ");
+
+            //поле пользователя
+            for(int u=0; u<SIZE; u++) {
+                if (matrix[i][u] == 0) {
+                    result += "| ";
+                }
+                if (matrix[i][u] == 1) {
+                    result += "|#";
+                }
+                if (matrix[i][u] == 2) {
+                    result += "|~";
+                }
+                if (matrix[i][u] == 3) {
+                    result += "|•";
+                }
+                if (matrix[i][u] == 4) {
+                    result += "|+";
+                }
+            }
+            result+="|          ";
+            result += ( (i+1) + " ");
+            //поле компьютера
+            for(int j=0; j<SIZE; j++){
+                if(matrix[i][j]==0){
+                    result+="| ";
+                }
+                if(matrix[i][j]==1){
+                    result+="| ";
+                }
+                if(matrix[i][j]==2){
+                    result+="| ";
+                }
+                if(matrix[i][j]==3){
+                    result+="|•";
+                }
+                if(matrix[i][j]==4){
+                    result+="|+";
+                }
+            }
+            result+="|\n";
+        }
+        result+="  ";
+        //последняя строчка
+        for(int i=0; i<SIZE; i++){
+            result+=" ¯";
+        }
+        result+="             ";
+        for(int i=0; i<SIZE-1; i++){
+            result+=" ¯";
+        }
+        result+=" ¯\n";
+
+       return result;
+    }
+
+    static int rand ( int a){
+        Random random = new Random();
+        return random.nextInt(a);
+    }
+
+    static boolean addship (int lenght){
+        int orientation,x,y;
+        do{
+            orientation=rand (2);
+            x=rand(SIZE);
+            y=rand(SIZE);
+        }while(!checkEmptyShip(x,y,orientation,lenght));
+        placeShip(x,y,orientation,lenght);
+        return true;
+    }
+
+    private static void placeShip(int x, int y, int orientation, int lenght) {
+    }
+
+    static boolean checkEmptyShip(int x, int y, int orientation, int lenght){
+        if (orientation==0){
+            for(int i=y; i<y+lenght; i++){
+                if (i>=SIZE || matrix[x][i]!=0){
+                    return false;
+                }
+            }
+        }
+        if (orientation==1){
+            for(int i=x; i<x+lenght; i++){
+                if (i>=SIZE || matrix[i][y]!=0){
+                    return false;
+                }
+            }
+        }
+return  true;
+    }
+}
