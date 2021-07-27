@@ -1,0 +1,73 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class jopa {
+    private static int SIZE = 10;
+    static int[][] matrix = new int[SIZE][SIZE];
+
+    public static void main(String args[]) {
+        for (int i = 4; i > 0; i--) {
+            for (int j = 4; j >= i; j--) {
+                user(i);
+            }
+        }
+
+    }
+
+    static void user(int length) {
+        int x;
+        int y;
+        int oriantation;
+        do {
+             x = getInt(SIZE, "ведите X координату головы корабля");
+             y = getInt(SIZE, "введите Y координату головы корабля");
+             oriantation = getInt(SIZE, "введите положение корабля. при 1 это горизонтально. при 2 это вертикально");
+        } while (checkBusyShip(x, y, oriantation, length) != true);
+        placeship(x, y,oriantation, length)
+    }
+
+
+    int rand(int a) {
+        Random random = new Random();
+        return random.nextInt(a);
+
+
+    }
+    boolean addship(int length) {
+        int oriantation, x, y;
+        do {
+            oriantation = rand(2);
+            x = rand(SIZE);
+            y = rand(SIZE);
+        } while (!checkBusyShip(x, y, oriantation, length));
+        //placeShip(x, y, oriantation, length);
+        return true;
+    }
+    static int getInt(int bound, String message) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(message);
+
+        int number = 1;
+        do {
+            if (number <= 0 || number > bound)
+                System.out.println("Некорректные данные! Повторите попытку");
+            while (!sc.hasNextInt()) {
+                System.out.println("Некорректные данные! Повторите попытку");
+                sc.next(); // this is important!
+            }
+            number = sc.nextInt();
+        } while (number <= 0 || number > bound);
+        return number;
+    }
+    static boolean checkBusyShip(int x, int y, int oriantation, int lenght) {
+        if (oriantation == 0) {
+            for (int i = y; i < lenght; i++) {
+                if (i >= SIZE - 1 || matrix[x][i] != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
